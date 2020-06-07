@@ -12,19 +12,13 @@
   })(function () {
     'use strict';
     const Modernizr = window.Modernizr || { csstransforms3d: true };
-    if (typeof Modernizr.preserve3d !== 'boolean') {
-      Modernizr.preserve3d = true;
-    }
+    if (typeof Modernizr.preserve3d !== 'boolean') Modernizr.preserve3d = true;
 
     function FlipBook(el, options) {
       // Allow developer to omit new when instantiating
       if (!(this instanceof FlipBook)) {
-        if (el.length) {
-          Array.prototype.forEach.call(el, function (n) {
-            return new FlipBook(n, options);
-          });
-        }
-        return new FlipBook(el, options);
+        if (!el.length) return new FlipBook(el, options);
+        Array.prototype.forEach.call(el, (n) => new FlipBook(n, options));
       }
 
       // OPTIONS
@@ -61,9 +55,7 @@
       this.el.setAttribute('data-useragent', navigator.userAgent); // Add user agent attribute to HTMLElement - used in CSS selection ( for IE10 detection )
       this.pages = this.el.querySelectorAll(`.${this.classNames.page}, .${this.classNames.hiddenCover}`);
       if (this.options.canClose) {
-        if (this.options.initialActivePage === 0) {
-          this.el.classList.add(this.classNames.atFrontCover);
-        }
+        if (this.options.initialActivePage === 0) this.el.classList.add(this.classNames.atFrontCover);
         this.pages.item(0).classList.add(this.classNames.firstPage);
         this.pages.item(this.pages.length - 1).classList.add(this.classNames.lastPage);
       }
