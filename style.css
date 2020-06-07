@@ -1,4 +1,4 @@
-.Heidelberg-Book {
+.c-flipbook {
   -webkit-perspective: 2200px;
   perspective: 2200px;
   -webkit-transform-style: preserve-3d;
@@ -14,12 +14,12 @@
   /* width: 800px;
   height: 200px; */
 }
-.Heidelberg-Book:not(.is-ready) * {
+.c-flipbook:not(.is-ready) * {
   -webkit-transition: none !important;
   -o-transition: none !important;
   transition: none !important;
 }
-.Heidelberg-Book:after {
+.c-flipbook:after {
   content: '';
   display: table;
   clear: both;
@@ -28,7 +28,7 @@
   -webkit-transform: rotateY(-20deg) !important;
   transform: rotateY(-20deg) !important;
 }
-.Heidelberg-Page {
+.c-flipbook__page {
   cursor: pointer;
   overflow: hidden;
   position: absolute;
@@ -55,17 +55,17 @@
   transition: transform 0.9s ease;
   transition: transform 0.9s ease, -webkit-transform 0.9s ease;
 }
-.Heidelberg-Page:nth-child(2n) {
+.c-flipbook__page:nth-child(2n) {
   -webkit-transform-origin: 100%;
   -ms-transform-origin: 100%;
   transform-origin: 100%;
   left: 0;
   border-radius: 6px 0px 0px 6px;
 }
-.Heidelberg-Page:nth-child(2n):not(.last-page) {
+.c-flipbook__page:nth-child(2n):not(.last-page) {
   border-right: none;
 }
-.Heidelberg-Page:nth-child(odd) {
+.c-flipbook__page:nth-child(odd) {
   -webkit-transform-origin: 0;
   -ms-transform-origin: 0;
   transform-origin: 0;
@@ -74,75 +74,60 @@
   transform: rotateY(-180deg);
   border-radius: 0px 6px 6px 0px;
 }
-.Heidelberg-Page:nth-child(odd):not(.first-page) {
+.c-flipbook__page:nth-child(odd):not(.first-page) {
   border-left: none;
 }
-.Heidelberg-Page.is-active {
+.c-flipbook__page.is-active {
   z-index: 2;
 }
-.Heidelberg-Page.is-active:nth-child(2n) {
+.c-flipbook__page.is-active:nth-child(2n) {
   -webkit-transform: rotateY(10deg);
   transform: rotateY(10deg);
 }
-.Heidelberg-Page.is-active:nth-child(2n):hover {
+.c-flipbook__page.is-active:nth-child(2n):hover {
   -webkit-transform: rotateY(15deg);
   transform: rotateY(15deg);
 }
-.Heidelberg-Page.is-active:nth-child(odd) {
+.c-flipbook__page.is-active:nth-child(odd) {
   -webkit-transform: rotateY(-10deg);
   transform: rotateY(-10deg);
 }
-.Heidelberg-Page.is-active:nth-child(odd):hover {
+.c-flipbook__page.is-active:nth-child(odd):hover {
   -webkit-transform: rotateY(-15deg);
   transform: rotateY(-15deg);
 }
-.Heidelberg-Page.is-active:nth-child(odd) ~ .Heidelberg-Page:nth-child(2n) {
+.c-flipbook__page.is-active:nth-child(odd) ~ .c-flipbook__page:nth-child(2n) {
   -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
 }
-.Heidelberg-Page.is-active:nth-child(odd) ~ .Heidelberg-Page:nth-child(odd) {
+.c-flipbook__page.is-active:nth-child(odd) ~ .c-flipbook__page:nth-child(odd) {
   -webkit-transform: rotateY(0);
   transform: rotateY(0);
 }
-.Heidelberg-Page.was-active {
+.c-flipbook__page.was-active {
   z-index: 1;
 }
-.Heidelberg-Page.is-animating:nth-child(odd) {
+.c-flipbook__page.is-animating:nth-child(odd) {
   z-index: 4;
 }
-.Heidelberg-Page.is-animating:nth-child(odd) ~ .Heidelberg-Page.is-animating {
+.c-flipbook__page.is-animating:nth-child(odd) ~ .c-flipbook__page.is-animating {
   z-index: 3;
 }
-.Heidelberg-Page.is-animating + .Heidelberg-Page:not(.is-animating):nth-child(odd) {
+.c-flipbook__page.is-animating + .c-flipbook__page:not(.is-animating):nth-child(odd) {
   z-index: 1;
 }
-.Heidelberg-Book > .Heidelberg-Spread {
+.no-csstransforms3d .c-flipbook__page {
   display: none;
 }
-.Heidelberg-Book > .Heidelberg-Spread:first-child {
-  display: block;
-  width: 100%;
-  overflow: hidden;
-}
-.no-csstransforms3d .Heidelberg-Page {
-  display: none;
-}
-.no-csstransforms3d .Heidelberg-Page.is-active {
+.no-csstransforms3d .c-flipbook__page.is-active {
   display: block;
   position: relative;
   float: left;
 }
-.Heidelberg-Spread {
-  position: relative;
-  width: 200%;
-}
-.Heidelberg-Page.with-Spread:nth-child(odd) .Heidelberg-Spread, .no-csstransforms3d .Heidelberg-Page.with-Spread.is-active + .Heidelberg-Page.with-Spread.is-active .Heidelberg-Spread {
-  left: -100%;
-}
-.Heidelberg-Book[data-useragent*='MSIE 10.0'] .Heidelberg-Page {
+.c-flipbook[data-useragent*='MSIE 10.0'] .c-flipbook__page {
   opacity: 0;
 }
-.Heidelberg-Book[data-useragent*='MSIE 10.0'] .Heidelberg-Page.is-active {
+.c-flipbook[data-useragent*='MSIE 10.0'] .c-flipbook__page.is-active {
   -webkit-transition: opacity 0.9s ease, -webkit-transform 0.9s ease;
   transition: opacity 0.9s ease, -webkit-transform 0.9s ease;
   -o-transition: transform 0.9s ease, opacity 0.9s ease;
@@ -150,7 +135,7 @@
   transition: transform 0.9s ease, opacity 0.9s ease, -webkit-transform 0.9s ease;
   opacity: 1;
 }
-.Heidelberg-Book[data-useragent*='MSIE 10.0'] .Heidelberg-Page.was-active {
+.c-flipbook[data-useragent*='MSIE 10.0'] .c-flipbook__page.was-active {
   -webkit-transition-delay: 2s;
   -o-transition-delay: 2s;
   transition-delay: 2s;
@@ -161,14 +146,14 @@
   transition: transform 0.9s ease, opacity 0.9s ease, -webkit-transform 0.9s ease;
   opacity: 0;
 }
-.Heidelberg-Book.at-front-cover {
+.c-flipbook.at-front-cover {
   left: -25%;
 }
-.Heidelberg-Book.at-rear-cover {
+.c-flipbook.at-rear-cover {
   left: 25%;
 }
 @supports (transition: transform 0.9s ease) and (not (-ms-ime-align: auto)) {
-  .Heidelberg-Page {
+  .c-flipbook__page {
     -webkit-transition: -webkit-transform 0.9s ease;
     transition: -webkit-transform 0.9s ease;
     -o-transition: transform 0.9s ease;
@@ -176,7 +161,7 @@
     transition: transform 0.9s ease, -webkit-transform 0.9s ease;
  }
 }
-.Heidelberg-Page:before {
+.c-flipbook__page:before {
   content: '';
   position: absolute;
   z-index: 3;
@@ -185,25 +170,19 @@
   height: 100%;
   background-size: 100% 100%;
 }
-.Heidelberg-Page.with-Spread:before {
-  display: none;
-}
-.Heidelberg-Page:nth-child(2n).is-active:hover {
+.c-flipbook__page:nth-child(2n).is-active:hover {
   -webkit-transform: rotateY(5deg);
   transform: rotateY(5deg);
 }
-.Heidelberg-Page:nth-child(odd).is-active:hover {
+.c-flipbook__page:nth-child(odd).is-active:hover {
   -webkit-transform: rotateY(-5deg);
   transform: rotateY(-5deg);
 }
-.Heidelberg-Page.is-active:not(:hover) {
+.c-flipbook__page.is-active:not(:hover) {
   -webkit-transform: rotateY(0deg);
   transform: rotateY(0deg);
 }
-.Heidelberg-Spread {
-  height: 100%;
-}
-.heidelberg-book-image {
+.c-flipbook-image {
   position: relative;
   z-index: 2;
   height: auto;
@@ -211,7 +190,7 @@
   display: block;
   pointer-events: none;
 }
-.Heidelberg-Page .ss-loading {
+.c-flipbook__page .ss-loading {
   font-size: 2rem;
   position: absolute;
   z-index: 1;
@@ -222,7 +201,7 @@
   display: -ms-flexbox;
   display: flex;
 }
-.Heidelberg-Page .ss-loading:before {
+.c-flipbook__page .ss-loading:before {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

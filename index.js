@@ -16,15 +16,15 @@
       Modernizr.preserve3d = true;
     }
 
-    function Heidelberg(el, options) {
+    function FlipBook(el, options) {
       // Allow developer to omit new when instantiating
-      // if (!(this instanceof Heidelberg)) {
+      // if (!(this instanceof FlipBook)) {
       //   if (el.length) {
       //     Array.prototype.forEach.call(el, function(n) {
-      //       return new Heidelberg(n, options);
+      //       return new FlipBook(n, options);
       //     });
       //   } else {
-      //     return new Heidelberg(el, options);
+      //     return new FlipBook(el, options);
       //   }
       // }
 
@@ -44,44 +44,54 @@
         width: '800px',
         height: '283px',
       };
-
       this.options = { ...defaults, ...options };
+      this.classNames = {
+        page: 'c-flipbook__page',
+        hiddenCover: 'c-flipbook__hidden_cover',
+        atFrontCover: 'at-front-cover',
+        atBackCover: 'at-rear-cover',
+        firstPage: 'first-page',
+        lastPage: 'last-page',
+        isReady: 'is-ready',
+        isActive: 'is-active',
+        isCalling: 'is-calling',
+        isAnimating: 'is-animating',
+        wasActive: 'was-active',
+      };
 
-      // PRIVATE constIABLES
-      // Main element always a jQuery object
+      // PRIVATE const
       this.el = document.getElementById(el);
       this.el.style.width = this.options.width;
       this.el.style.height = this.options.height;
       this.el.setAttribute('data-useragent', navigator.userAgent); // Add user agent attribute to HTMLElement - used in CSS selection ( for IE10 detection )
-      this.pages = this.el.querySelectorAll('.Heidelberg-Page, .Heidelberg-HiddenCover');
+      this.pages = this.el.querySelectorAll(`.${this.classNames.page}, .${this.classNames.hiddenCover}`);
       if (this.options.canClose) {
-        if (this.options.initialActivePage === 0) this.el.classList.add('at-front-cover');
-        this.pages.item(0).classList.add('first-page');
-        this.pages.item(this.pages.length - 1).classList.add('last-page');
+        if (this.options.initialActivePage === 0) this.el.classList.add(this.classNames.atFrontCover);
+        this.pages.item(0).classList.add(this.classNames.firstPage);
+        this.pages.item(this.pages.length - 1).classList.add(this.classNames.lastPage);
       }
-      // this.pagesArr = Array.from(this.pages);
       // RUN
       this.init();
     }
 
-    Heidelberg.prototype.getPages = function () {
-      this.pages = this.el.querySelectorAll('.Heidelberg-Page, .Heidelberg-HiddenCover');
+    FlipBook.prototype.getPages = function () {
+      this.pages = this.el.querySelectorAll(`.${this.classNames.page}, .${this.classNames.hiddenCover}`);
       return Array.from(this.pages);
     };
 
-    Heidelberg.prototype.init = function () {
+    FlipBook.prototype.init = function () {
       const el = this.el;
       const els = {};
       const options = this.options;
 
-      el.classList.add('is-ready');
+      el.classList.add(this.classNames.isReady);
 
       // if (options.hasSpreads) this.setupSpreads();
 
       const leftFunction = options.canClose ? 'even' : 'odd';
       const rightFunction = options.canClose ? 'odd' : 'even';
-      els.pagesLeft = el.querySelectorAll(`.Heidelberg-Page:nth-child(${leftFunction})`);
-      els.pagesRight = el.querySelectorAll(`.Heidelberg-Page:nth-child(${rightFunction})`);
+      els.pagesLeft = el.querySelectorAll(`.${this.classNames.page}:nth-child(${leftFunction})`);
+      els.pagesRight = el.querySelectorAll(`.${this.classNames.page}:nth-child(${rightFunction})`);
 
       // if initialActivePage is odd, we substract one.
       const initialActivePage =
@@ -89,33 +99,33 @@
 
       if (!options.canClose) {
         const coverEl = document.createElement('div');
-        coverEl.classList.add('Heidelberg-HiddenCover');
+        coverEl.classList.add(this.classNames.hiddenCover);
         el.prepend(coverEl.cloneNode());
         el.append(coverEl.cloneNode());
 
         Array.from(this.pages).forEach((page, index) => {
           if (index === initialActivePage || index === initialActivePage + 1) {
-            page.classList.add('is-active');
+            page.classList.add(this.classNames.isActive);
           }
         });
       } else {
         if (options.initialActivePage !== 0) {
           Array.from(this.pages).forEach((page, index) => {
             if (index === initialActivePage || index === initialActivePage + 1) {
-              page.classList.add('is-active');
+              page.classList.add(this.classNames.isActive);
             }
           });
         } else {
-          this.pages.item(0).classList.add('is-active');
+          this.pages.item(0).classList.add(this.classNames.isActive);
         }
       }
 
       let initInterval;
       if (options.initialCall) {
         const setupCalls = () => {
-          els.pagesRight.item(0).classList.add('is-calling');
+          els.pagesRight.item(0).classList.add(this.classNames.isCalling);
           setTimeout(() => {
-            els.pagesRight.item(0).classList.remove('is-calling');
+            els.pagesRight.item(0).classList.remove(this.classNames.isCalling);
           }, 900);
         };
 
@@ -141,7 +151,7 @@
         el.addEventListener(
           'click',
           function () {
-            this.turnPage('forwards');
+            this.turnPage('forward');
             if (options.initialCall) clearInterval(initInterval);
           }.bind(this),
         );
@@ -153,7 +163,7 @@
       //     swipe_velocity: 0.3,
       //   };
 
-      //   const hammerLeft = new Hammer(document.querySelector('.Heidelberg-Page:nth-child(2n)'), opts);
+      //   const hammerLeft = new Hammer(document.querySelector('.FlipBook-Page:nth-child(2n)'), opts);
       //   hammerLeft.on(
       //     'swiperight',
       //     function(evt) {
@@ -163,22 +173,22 @@
       //     }.bind(this),
       //   );
 
-      //   const hammerRight = new Hammer(document.querySelector('.Heidelberg-Page:nth-child(odd)'), opts);
+      //   const hammerRight = new Hammer(document.querySelector('.FlipBook-Page:nth-child(odd)'), opts);
       //   hammerRight.on(
       //     'swipeleft',
       //     function(evt) {
-      //       this.turnPage('forwards');
+      //       this.turnPage('forward');
       //       // evt.gesture.stopDetect();
       //       evt.preventDefault();
       //     }.bind(this),
       //   );
       // }
 
-      let forwardsKeycode = 37;
+      let forwardKeycode = 37;
       let backKeycode = 39;
 
       if (!Modernizr.csstransforms3d) {
-        forwardsKeycode = 39;
+        forwardKeycode = 39;
         backKeycode = 37;
       }
 
@@ -186,8 +196,8 @@
         document.addEventListener(
           'keydown',
           function (e) {
-            if (e.keyCode == forwardsKeycode) {
-              this.turnPage('forwards');
+            if (e.keyCode == forwardKeycode) {
+              this.turnPage('forward');
               if (options.initialCall) clearInterval(initInterval);
               return false;
             }
@@ -200,11 +210,11 @@
       }
     };
 
-    Heidelberg.prototype.isLastPage = function () {
+    FlipBook.prototype.isLastPage = function () {
       const index = {};
       const activePages = [];
       this.getPages().forEach((page, index) => {
-        if (page.classList.contains('is-active')) {
+        if (page.classList.contains(this.classNames.isActive)) {
           activePages.push(index);
         }
       });
@@ -212,11 +222,11 @@
       return this.pages.last().index() == index.activeLeft;
     };
 
-    Heidelberg.prototype.isFirstPage = function () {
+    FlipBook.prototype.isFirstPage = function () {
       const index = {};
       const activePages = [];
       this.getPages().forEach((page, index) => {
-        if (page.classList.contains('is-active')) {
+        if (page.classList.contains(this.classNames.isActive)) {
           activePages.push(index);
         }
       });
@@ -224,7 +234,7 @@
       return this.pages.first().index() == index.activeRight;
     };
 
-    Heidelberg.prototype.turnPage = function (arg) {
+    FlipBook.prototype.turnPage = function (arg) {
       // debugger;
       const el = this.el;
       const els = {};
@@ -232,9 +242,9 @@
       const index = {};
       let direction = arg;
 
-      els.pagesActive = el.querySelectorAll('.Heidelberg-Page.is-active');
-      els.pagesAnimating = el.querySelectorAll('.Heidelberg-Page.is-animating');
-      els.children = el.querySelectorAll('.Heidelberg-Page, .Heidelberg-HiddenCover');
+      els.pagesActive = el.querySelectorAll(`.${this.classNames.page}.${this.classNames.isActive}`);
+      els.pagesAnimating = el.querySelectorAll(`.${this.classNames.page}.${this.classNames.isAnimating}`);
+      els.children = el.querySelectorAll(`.${this.classNames.page}, .${this.classNames.hiddenCover}`);
 
       // const maxAnimations = options.concurrentAnimations && els.pagesAnimating.length > options.concurrentAnimations;
       const maxAnimationsBrowser = !Modernizr.preserve3d && els.pagesAnimating.length > 2;
@@ -245,7 +255,7 @@
 
       const activePages = [];
       this.getPages().forEach((page, index) => {
-        if (page.classList.contains('is-active')) {
+        if (page.classList.contains(this.classNames.isActive)) {
           activePages.push(index);
         }
       });
@@ -262,7 +272,7 @@
       const isFirstPage = index.activeLeft === (options.canClose ? 0 : 1) && direction == 'back';
       const isLastPage =
         index.activeRight === (options.canClose ? this.pages.length - 1 : this.pages.length - 2) &&
-        direction == 'forwards';
+        direction == 'forward';
 
       if (isFirstPage || isLastPage) {
         return;
@@ -278,7 +288,7 @@
         if (index.targetLeft == index.activeLeft) {
           return;
         } else if (index.targetLeft > index.activeRight) {
-          direction = 'forwards';
+          direction = 'forward';
           index.target = index.targetLeft;
           index.targetSibling = index.target + 1;
         } else {
@@ -292,11 +302,11 @@
         index.targetSibling = index.targetSibling - 1;
         // }
       } else {
-        index.target = direction == 'forwards' ? index.activeRight + 1 : index.activeLeft - 1;
-        index.targetSibling = direction == 'forwards' ? index.activeRight + 2 : index.activeLeft - 2;
+        index.target = direction == 'forward' ? index.activeRight + 1 : index.activeLeft - 1;
+        index.targetSibling = direction == 'forward' ? index.activeRight + 2 : index.activeLeft - 2;
       }
 
-      if (direction == 'forwards' && index.target == 2) {
+      if (direction == 'forward' && index.target == 2) {
         index.target = 1;
         index.targetSibling = 2;
       }
@@ -308,18 +318,18 @@
       els.pagesAnimating = [els.pagesAnimatingIn, els.pagesAnimatingOut];
 
       els.pagesActive.forEach((page) => {
-        page.classList.remove('is-active');
-        page.classList.add('was-active');
+        page.classList.remove(this.classNames.isActive);
+        page.classList.add(this.classNames.wasActive);
       });
       els.pagesTarget.forEach((page) => {
         if (!page) return;
-        page.classList.add('is-active');
+        page.classList.add(this.classNames.isActive);
       });
 
       if (Modernizr.csstransforms3d) {
         els.pagesAnimating.forEach((page) => {
           if (!page) return;
-          page.classList.add('is-animating');
+          page.classList.add(this.classNames.isAnimating);
         });
       }
 
@@ -331,11 +341,11 @@
             function () {
               els.pagesAnimating.forEach((page) => {
                 if (!page) return;
-                page.classList.remove('is-animating');
+                page.classList.remove(this.classNames.isAnimating);
               });
 
               els.pagesActive.forEach((page) => {
-                page.classList.remove('was-active');
+                page.classList.remove(this.classNames.wasActive);
               });
             }.bind(document),
           );
@@ -345,26 +355,29 @@
       options.onPageTurn(el, els);
       // options.onPageTurn(this.isFirstPage(), this.isLastPage());
       // el.dispatchEvent(event);
-      // $(this).trigger('pageTurn.heidelberg', [el, els]);
+      // $(this).trigger('pageTurn.FlipBook', [el, els]);
 
-      if (direction == 'forwards' && els.pagesTarget[0].classList.contains('last-page')) {
-        el.classList.remove('at-front-cover');
-        el.classList.add('at-rear-cover');
-      } else if (direction == 'back' && els.pagesTarget[els.pagesTarget.length - 1].classList.contains('first-page')) {
-        el.classList.remove('at-rear-cover');
-        el.classList.add('at-front-cover');
+      if (direction == 'forward' && els.pagesTarget[0].classList.contains(this.classNames.lastPage)) {
+        el.classList.remove(this.classNames.atFrontCover);
+        el.classList.add(this.classNames.atBackCover);
+      } else if (
+        direction == 'back' &&
+        els.pagesTarget[els.pagesTarget.length - 1].classList.contains(this.classNames.firstPage)
+      ) {
+        el.classList.remove(this.classNames.atBackCover);
+        el.classList.add(this.classNames.atFrontCover);
       } else {
-        el.classList.remove('at-rear-cover');
-        el.classList.remove('at-front-cover');
+        el.classList.remove(this.classNames.atBackCover);
+        el.classList.remove(this.classNames.atFrontCover);
       }
     };
 
-    // Heidelberg.prototype.setupSpreads = function () {
+    // FlipBook.prototype.setupSpreads = function () {
     //   const el = this.el;
     //   const options = this.options;
-    //   this.el.querySelectorAll('.Heidelberg-Spread').forEach((page) => {
+    //   this.el.querySelectorAll('.FlipBook-Spread').forEach((page) => {
     //     const pageEl = document.createElement('div');
-    //     pageEl.classList.add('Heidelberg-Page with-Spread');
+    //     pageEl.classList.add('FlipBook-Page with-Spread');
     //     pageEl.innerHTML = '';
     //     pageEl.appendChild(page.cloneNode());
 
@@ -374,8 +387,8 @@
     //   });
 
     //   options.onSpreadSetup(el);
-    //   // $(this).trigger('spreadSetup.heidelberg', el);
+    //   // $(this).trigger('spreadSetup.FlipBook', el);
     // };
-    return Heidelberg;
+    return FlipBook;
   });
 })();

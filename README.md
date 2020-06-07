@@ -36,13 +36,13 @@ and script in body tag:
 
 Create your book skeleton like this:
 ```
-<div class="Heidelberg-Book" id="Heidelberg">
-  <div class="Heidelberg-Page">
+<div class="c-flipbook" id="FlipBook">
+  <div class="c-flipbook__page">
   </div>
-  <div class="Heidelberg-Page">
+  <div class="c-flipbook__page">
   </div>
   ...
-  <div class="Heidelberg-Page">
+  <div class="c-flipbook__page">
   </div>
 </div>
 ```
