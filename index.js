@@ -23,9 +23,8 @@
           Array.prototype.forEach.call(el, function (n) {
             return new FlipBook(n, options);
           });
-        } else {
-          return new FlipBook(el, options);
         }
+        return new FlipBook(el, options);
       }
 
       // OPTIONS
@@ -93,10 +92,9 @@
       pagesRight = pagesRight ? Array.from(pagesRight) : [];
 
       // if initialActivePage is odd, substract one.
-      const initialActivePage =
-        options.initialActivePage & 1 ? options.initialActivePage - 1 : options.initialActivePage;
+      let initialActivePage = options.initialActivePage;
+      if (initialActivePage & 1) initialActivePage = initialActivePage - 1;
 
-      const pagesArr = Array.from(this.pages);
       if (!options.canClose) {
         const coverEl = document.createElement('div');
         coverEl.classList.add(classNames.hiddenCover);
@@ -106,7 +104,7 @@
         this.pages.item(0).classList.add(classNames.isActive);
       }
       if ((options.initialActivePage !== 0 && options.canClose) || !options.canClose) {
-        pagesArr.forEach((page, index) => {
+        Array.from(this.pages).forEach((page, index) => {
           if (index === initialActivePage || index === initialActivePage + 1) {
             page.classList.add(classNames.isActive);
           }
@@ -135,10 +133,10 @@
         }),
       );
 
-      let forwardKeycode = Modernizr.csstransforms3d ? 39 : 37;
-      let backKeycode = Modernizr.csstransforms3d ? 37 : 39;
       if (options.arrowKeys) {
         document.addEventListener('keydown', ({ keyCode }) => {
+          let forwardKeycode = Modernizr.csstransforms3d ? 39 : 37;
+          let backKeycode = Modernizr.csstransforms3d ? 37 : 39;
           if (keyCode === backKeycode) this.turnPage('back');
           if (keyCode === forwardKeycode) {
             this.turnPage('forward');
@@ -194,7 +192,6 @@
           target = targetRight;
           targetSibling = target - 1;
         }
-
         target = target - 1;
         targetSibling = targetSibling - 1;
       } else {
@@ -239,7 +236,6 @@
               if (!page) return;
               page.classList.remove(_.classNames.isAnimating);
             });
-
             pagesActive.forEach((page) => {
               page.classList.remove(_.classNames.wasActive);
             });
@@ -263,14 +259,7 @@
         }
       }
 
-      options.onPageTurn(el, {
-        pagesActive,
-        pagesAnimating,
-        children,
-        pagesAnimatingOut,
-        pagesAnimatingIn,
-        pagesTarget,
-      });
+      options.onPageTurn(el, { pagesActive, children });
     };
     return FlipBook;
   });
