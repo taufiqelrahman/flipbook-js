@@ -72,20 +72,25 @@
       this.init();
     }
 
-    FlipBook.prototype.getPages = function () {
+    FlipBook.prototype.getActivePages = function () {
+      const activePages = [];
       this.pages = this.el.querySelectorAll(`.${this.classNames.page}, .${this.classNames.hiddenCover}`);
-      return Array.from(this.pages);
+      Array.from(this.pages).forEach((page, index) => {
+        if (page.classList.contains(this.classNames.isActive)) activePages.push(index);
+      });
+      return activePages;
     };
 
     FlipBook.prototype.init = function () {
       const { el, options, classNames } = this;
-      const els = {};
       el.classList.add(classNames.isReady);
 
       const leftFunction = options.canClose ? 'even' : 'odd';
       const rightFunction = options.canClose ? 'odd' : 'even';
-      els.pagesLeft = el.querySelectorAll(`.${classNames.page}:nth-child(${leftFunction})`);
-      els.pagesRight = el.querySelectorAll(`.${classNames.page}:nth-child(${rightFunction})`);
+      let pagesLeft = el.querySelectorAll(`.${classNames.page}:nth-child(${leftFunction})`);
+      pagesLeft = pagesLeft ? Array.from(pagesLeft) : [];
+      let pagesRight = el.querySelectorAll(`.${classNames.page}:nth-child(${rightFunction})`);
+      pagesRight = pagesRight ? Array.from(pagesRight) : [];
 
       // if initialActivePage is odd, substract one.
       const initialActivePage =
@@ -109,108 +114,71 @@
       }
 
       let initInterval;
-      if (options.initialCall) {
+      if (options.initialCall && pagesRight[0]) {
         const setupCalls = () => {
-          els.pagesRight.item(0).classList.add(classNames.isCalling);
+          pagesRight[0].classList.add(classNames.isCalling);
           setTimeout(() => {
-            els.pagesRight.item(0).classList.remove(classNames.isCalling);
+            pagesRight[0].classList.remove(classNames.isCalling);
           }, 900);
         };
         setTimeout(setupCalls, 500);
         initInterval = setInterval(setupCalls, 3000);
       }
 
-      els.previousTrigger = [...Array.from(els.pagesLeft), options.previousButton];
-      els.nextTrigger = [...Array.from(els.pagesRight), options.nextButton];
-      els.previousTrigger.forEach((el) => {
-        if (!el) return;
-        el.addEventListener('click', () => {
-          this.turnPage('back');
-        });
-      });
-      els.nextTrigger.forEach((el) => {
-        if (!el) return;
+      if (options.previousButton) pagesLeft = [...pagesLeft, options.previousButton];
+      if (options.nextButton) pagesRight = [...pagesRight, options.nextButton];
+      pagesLeft.forEach((el) => el.addEventListener('click', () => this.turnPage('back')));
+      pagesRight.forEach((el) =>
         el.addEventListener('click', () => {
           this.turnPage('forward');
           if (options.initialCall) clearInterval(initInterval);
-        });
-      });
+        }),
+      );
 
-      let forwardKeycode = 37;
-      let backKeycode = 39;
-      if (!Modernizr.csstransforms3d) {
-        forwardKeycode = 39;
-        backKeycode = 37;
-      }
+      let forwardKeycode = Modernizr.csstransforms3d ? 39 : 37;
+      let backKeycode = Modernizr.csstransforms3d ? 37 : 39;
       if (options.arrowKeys) {
-        document.addEventListener('keydown', (e) => {
-          if (e.keyCode === forwardKeycode) {
+        document.addEventListener('keydown', ({ keyCode }) => {
+          if (keyCode === backKeycode) this.turnPage('back');
+          if (keyCode === forwardKeycode) {
             this.turnPage('forward');
             if (options.initialCall) clearInterval(initInterval);
-            return false;
-          }
-          if (e.keyCode === backKeycode) {
-            this.turnPage('back');
-            return false;
           }
         });
       }
     };
 
     FlipBook.prototype.isLastPage = function () {
-      const activePages = [];
-      this.getPages().forEach((page, index) => {
-        if (page.classList.contains(this.classNames.isActive)) {
-          activePages.push(index);
-        }
-      });
-      const activeLeft = activePages[0];
-      return this.pages.last().index() == activeLeft;
+      const activeLeft = this.getActivePages()[0];
+      return this.pages.last().index() === activeLeft;
     };
 
     FlipBook.prototype.isFirstPage = function () {
-      const activePages = [];
-      this.getPages().forEach((page, index) => {
-        if (page.classList.contains(this.classNames.isActive)) {
-          activePages.push(index);
-        }
-      });
-      const activeRight = activePages[0];
-      return this.pages.first().index() == activeRight;
+      const activeRight = this.getActivePages()[0];
+      return this.pages.first().index() === activeRight;
     };
 
     FlipBook.prototype.turnPage = function (direction) {
       const { el, options, classNames } = this;
-      const els = {};
 
-      els.pagesActive = el.querySelectorAll(`.${classNames.page}.${classNames.isActive}`);
-      els.pagesAnimating = el.querySelectorAll(`.${classNames.page}.${classNames.isAnimating}`);
-      els.children = el.querySelectorAll(`.${classNames.page}, .${classNames.hiddenCover}`);
+      const pagesActive = el.querySelectorAll(`.${classNames.page}.${classNames.isActive}`);
+      let pagesAnimating = el.querySelectorAll(`.${classNames.page}.${classNames.isAnimating}`);
+      const children = el.querySelectorAll(`.${classNames.page}, .${classNames.hiddenCover}`);
 
-      const maxAnimationsBrowser = !Modernizr.preserve3d && els.pagesAnimating.length > 2;
-      if (maxAnimationsBrowser) {
-        return;
-      }
+      const maxAnimationsBrowser = !Modernizr.preserve3d && pagesAnimating.length > 2;
+      if (maxAnimationsBrowser) return;
 
-      const activePages = [];
-      this.getPages().forEach((page, index) => {
-        if (page.classList.contains(classNames.isActive)) {
-          activePages.push(index);
-        }
-      });
-
-      const activeLeft = activePages[0]; // Note about fix: the double spread code above caused code to wrap to bottom of array . This is the fix for double spreads.
+      // handle first and last page
+      const activeLeft = this.getActivePages()[0];
       const activeRight = activeLeft + 1;
-
-      const isFirstPage = activeLeft === (options.canClose ? 0 : 1) && direction == 'back';
+      const isFirstPage = activeLeft === (options.canClose ? 0 : 1) && direction === 'back';
       const isLastPage =
-        activeRight === (options.canClose ? this.pages.length - 1 : this.pages.length - 2) && direction == 'forward';
-
+        activeRight === (options.canClose ? this.pages.length - 1 : this.pages.length - 2) && direction === 'forward';
       if (isFirstPage || isLastPage) return;
 
       let target;
       let targetSibling;
-      if (typeof direction == 'number') {
+      if (typeof direction === 'number') {
         const isOdd = direction & 1;
         const isRight = options.canClose ? isOdd : !isOdd;
 
@@ -230,70 +198,79 @@
         target = target - 1;
         targetSibling = targetSibling - 1;
       } else {
-        target = direction == 'forward' ? activeRight + 1 : activeLeft - 1;
-        targetSibling = direction == 'forward' ? activeRight + 2 : activeLeft - 2;
+        target = direction === 'forward' ? activeRight + 1 : activeLeft - 1;
+        targetSibling = direction === 'forward' ? activeRight + 2 : activeLeft - 2;
       }
 
-      if (direction == 'forward' && target == 2) {
+      if (direction === 'forward' && target === 2) {
         target = 1;
         targetSibling = 2;
       }
 
-      els.pagesAnimatingOut = direction == 'back' ? els.pagesActive.item(0) : els.pagesActive.item(1);
-      els.pagesAnimatingIn = els.children.item(target);
-      els.pagesTarget = [els.pagesAnimatingIn];
-      if (targetSibling !== -1) els.pagesTarget = [...els.pagesTarget, els.children.item(targetSibling)];
-      els.pagesAnimating = [els.pagesAnimatingIn, els.pagesAnimatingOut];
+      const pagesAnimatingOut = direction === 'back' ? pagesActive.item(0) : pagesActive.item(1);
+      let pagesAnimatingIn = children.item(target);
+      let pagesTarget = [pagesAnimatingIn];
+      if (targetSibling !== -1) pagesTarget = [...pagesTarget, children.item(targetSibling)];
+      pagesAnimating = [pagesAnimatingIn, pagesAnimatingOut];
 
-      els.pagesActive.forEach((page) => {
+      pagesActive.forEach((page) => {
         page.classList.remove(classNames.isActive);
         page.classList.add(classNames.wasActive);
       });
-      els.pagesTarget.forEach((page) => {
+      pagesTarget.forEach((page) => {
         if (!page) return;
         page.classList.add(classNames.isActive);
       });
 
       if (Modernizr.csstransforms3d) {
-        els.pagesAnimating.forEach((page) => {
+        pagesAnimating.forEach((page) => {
           if (!page) return;
           page.classList.add(classNames.isAnimating);
         });
       }
 
-      els.pagesAnimating.forEach((page) => {
+      pagesAnimating.forEach((page) => {
         if (!page) return;
         const endEvents = ['webkitTransitionEnd', 'oTransitionEnd', 'msTransitionEnd', 'transitionend'];
         endEvents.forEach((trans) => {
           const _ = this;
           page.addEventListener(trans, () => {
-            els.pagesAnimating.forEach((page) => {
+            pagesAnimating.forEach((page) => {
               if (!page) return;
               page.classList.remove(_.classNames.isAnimating);
             });
 
-            els.pagesActive.forEach((page) => {
+            pagesActive.forEach((page) => {
               page.classList.remove(_.classNames.wasActive);
             });
           });
         });
       });
 
-      const lastTarget = els.pagesTarget[els.pagesTarget.length - 1];
-      const targetIsLastPage = els.pagesTarget[0] && els.pagesTarget[0].classList.contains(classNames.lastPage);
-      const targetIsFirstPage = lastTarget && lastTarget.classList.contains(classNames.firstPage);
-      if (direction == 'back' && targetIsFirstPage) {
-        el.classList.remove(classNames.atBackCover);
-        el.classList.add(classNames.atFrontCover);
-      } else if (direction == 'forward' && targetIsLastPage) {
-        el.classList.remove(classNames.atFrontCover);
-        el.classList.add(classNames.atBackCover);
-      } else {
-        el.classList.remove(classNames.atBackCover);
-        el.classList.remove(classNames.atFrontCover);
+      if (options.canClose) {
+        const lastTarget = pagesTarget[pagesTarget.length - 1];
+        const targetIsLastPage = pagesTarget[0] && pagesTarget[0].classList.contains(classNames.lastPage);
+        const targetIsFirstPage = lastTarget && lastTarget.classList.contains(classNames.firstPage);
+        if (direction === 'back' && targetIsFirstPage) {
+          el.classList.remove(classNames.atBackCover);
+          el.classList.add(classNames.atFrontCover);
+        } else if (direction === 'forward' && targetIsLastPage) {
+          el.classList.remove(classNames.atFrontCover);
+          el.classList.add(classNames.atBackCover);
+        } else {
+          el.classList.remove(classNames.atBackCover);
+          el.classList.remove(classNames.atFrontCover);
+        }
       }
 
-      options.onPageTurn(el, els);
+      options.onPageTurn(el, {
+        pagesActive,
+        pagesAnimating,
+        children,
+        pagesAnimatingOut,
+        pagesAnimatingIn,
+        pagesTarget,
+      });
     };
     return FlipBook;
   });
