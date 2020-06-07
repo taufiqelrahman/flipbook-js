@@ -169,10 +169,7 @@
       let target;
       let targetSibling;
       if (typeof direction === 'number') {
-        const isOdd = direction & 1;
-        const isRight = options.canClose ? isOdd : !isOdd;
-
-        const targetRight = isRight ? direction : direction + 1;
+        const targetRight = options.canClose && direction & 1 ? direction : direction + 1;
         const targetLeft = targetRight - 1;
         if (targetLeft === activeLeft) return;
         if (targetLeft > activeRight) {
