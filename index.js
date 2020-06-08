@@ -220,11 +220,11 @@
           direction = 'forward';
           target = targetLeft;
           targetSibling = target + 1;
-          return;
+        } else {
+          direction = 'back';
+          target = targetRight;
+          targetSibling = target - 1;
         }
-        direction = 'back';
-        target = targetRight;
-        targetSibling = target - 1;
       } else {
         target = direction === 'forward' ? activeRight + 1 : activeLeft - 1;
         targetSibling = direction === 'forward' ? activeRight + 2 : activeLeft - 2;
