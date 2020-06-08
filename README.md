@@ -1,6 +1,6 @@
 # FlipBook - Lightweight Non-JQuery Plugin
 
-FlipBook is a plugin built on javascript which allows users animate a book with flippable pages.
+FlipBook is a plugin built on javascript which allows users animate to a book with flippable pages.
 This plugin doesn't depend on any other libraries and this doesn't use JQuery.
 This would cut a significant download time as this is built 100% using plain vanilla javascript.
 
@@ -12,6 +12,7 @@ This would cut a significant download time as this is built 100% using plain van
 * Easy installation.
 * Can make the pages call for attention.
 * Easy navigation with arrow keys.
+* Can jump to specific page.
 
 ## Browser Compatibility
 
