@@ -27,6 +27,7 @@
           <li>Easy installation.</li>
           <li>Can make the pages call for attention.</li>
           <li>Easy navigation with arrow keys.</li>
+          <li>Can jump to specific page.</li>
         </ul>
       </div>
       <div class="content">
@@ -94,6 +95,19 @@
           <div class="message-body">
             &lt;script&gt;<br>
             new FlipBook('element-id');
+            <br>
+            &lt;/script&gt;
+          </div>
+        </article>
+        <p>
+          Add jump to page functionality
+        </p>
+        <article class="message is-info">
+          <div class="message-body">
+            &lt;script&gt;<br>
+            window.book = new FlipBook('element-id');
+            <br>
+            book.turnPage(page); // page number to jump to
             <br>
             &lt;/script&gt;
           </div>
@@ -211,7 +225,7 @@
         </div>
       </div>
       <div class="content">
-        <h5 class="title is-6">With previous and next button</h5>
+        <h5 class="title is-6">With previous, next button, and specific page</h5>
         <div class="level">
           <button id="prev-button" class="button">Prev</button>
           <div class="is-relative is-flex" style="margin: 0 auto 32px;width: 800px;height: 300px;">
@@ -237,6 +251,7 @@
             </div>
           </div>
           <button id="next-button" class="button">Next</button>
+          <button id="next-button" class="button" onclick="turnPage()">Page 4</button>
         </div>
       </div>
     </div>
@@ -265,13 +280,17 @@
       },
     });
     // with previous and next button
-    new FlipBook('FlipBook4', {
+    window.flipBook4 = new FlipBook('FlipBook4', {
       nextButton: document.getElementById('next-button'),
       previousButton: document.getElementById('prev-button'),
       onPageTurn: (_, els) => {
         console.log(els);
       },
     });
+    // turnPage function
+    function turnPage() {
+      flipBook4.turnPage(4);
+    }
   </script>
 </body>
 
