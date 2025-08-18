@@ -4,7 +4,7 @@ FlipBook is a plugin built on javascript which allows users animate to a book wi
 This plugin doesn't depend on any other libraries and this doesn't use JQuery.
 This would cut a significant download time as this is built 100% using plain vanilla javascript.
 
-<a href="https://demo-FlipBook.taufiqelrahman.com/" target="_blank"><strong>Demo and documentation</strong></a>
+[**Demo & Documentation**](https://hoverzoom-js.vercel.app)
 
 ## Features
 
@@ -26,17 +26,17 @@ Currently tested in:
 ## Getting Started
 
 Include stylesheet in head tag:
-```
-<link rel="stylesheet" href="FlipBook.css">
+```js
+<link rel="stylesheet" href="node_modules/hoverzoom-js/dist/flipbook.min.css">
 ```
 
 and script in body tag:
-```
-<script src="FlipBook.js"></script>
+```js
+<script src="node_modules/hoverzoom-js/dist/flipbook.umd.min.js"></script>
 ```
 
 Create your book skeleton like this:
-```
+```js
 <div class="c-flipbook" id="FlipBook">
   <div class="c-flipbook__page">
   </div>
@@ -49,15 +49,40 @@ Create your book skeleton like this:
 ```
 
 Add 1 line of javascript to initialize:
-```
+```js
 <script>
   new FlipBook('element-id');
 </script>
 ```
+## Installation
+
+Install via npm:
+
+```sh
+npm install flipbook-js
+```
+
+## Usage
+
+Import in your JavaScript/TypeScript project:
+
+```js
+// ES Module
+import FlipBook from 'flipbook-js';
+
+// CommonJS
+const FlipBook = require('flipbook-js');
+```
+
+Import CSS (if required):
+
+```js
+import 'flipbook-js/dist/flipbook.min.css';
+```
 
 ## Options
 
-```
+```js
 <script>
   new FlipBook('element-id', { // ID of element
     nextButton: document.getElementById(''), // next button element
