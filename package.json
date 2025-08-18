@@ -33,6 +33,13 @@
   "dependencies": {
     "node-sass": "^9.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taufiqelrahman/flipbook-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/taufiqelrahman/flipbook-js/issues"
+  },
   "files": [
     "dist/flipbook.umd.min.js",
     "dist/flipbook.esm.min.js",
