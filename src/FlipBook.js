@@ -3,9 +3,6 @@
 
 /**
  * FlipBook class for creating interactive book-like page flipping UI.
- */
-/**
- * FlipBook class for creating interactive book-like page flipping UI.
  *
  * Usage:
  *   new FlipBook(elementOrId, options)
@@ -377,5 +374,18 @@ class FlipBook {
   }
 }
 
-// Expose FlipBook globally
-window.FlipBook = FlipBook;
+// UMD export for FlipBook
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD
+    define([], factory);
+  } else if (typeof exports === 'object') {
+    // CommonJS
+    module.exports = factory();
+  } else {
+    // Browser global
+    root.FlipBook = factory();
+  }
+})(typeof self !== 'undefined' ? self : this, function () {
+  return FlipBook;
+});

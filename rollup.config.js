@@ -6,14 +6,14 @@ export default {
   output: [
     {
       file: 'dist/flipbook.esm.js',
-      format: 'esm'
+      format: 'esm',
     },
     {
       file: 'dist/flipbook.umd.js',
       format: 'umd',
       name: 'FlipBook', // jadi window.FlipBook di browser
-      exports: 'default'
-    }
+      exports: 'default',
+    },
   ],
-  plugins: [resolve(), commonjs()]
+  plugins: [resolve(), commonjs()],
 };
