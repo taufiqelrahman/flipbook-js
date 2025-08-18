@@ -1,5 +1,3 @@
-
-
 // FlipBook v1.0.0 by Taufiq El Rahman
 // Interactive book-like page flipping UI component
 
@@ -153,7 +151,7 @@ class FlipBook {
       el.addEventListener('click', () => {
         this.turnPage('forward');
         if (options.initialCall) clearInterval(initInterval);
-      })
+      }),
     );
     // Enable arrow key navigation if configured
     if (options.arrowKeys) FlipBook.handleArrowKeys(options, initInterval, this.turnPage.bind(this), this.Modernizr);

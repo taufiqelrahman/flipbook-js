@@ -5,7 +5,7 @@
   "author": "Taufiq El Rahman",
   "license": "MIT",
   "scripts": {
-    "scss": "node-sass style.scss style.css",
+    "scss": "node-sass src/style.scss dist/flipbook.css",
     "lint": "node_modules/.bin/eslint --fix .",
     "build": "yarn lint && yarn scss && rollup -c",
     "demo": "cp dist/flipbook.umd.min.js demo/flipbook.umd.min.js && cp dist/flipbook.min.css demo/flipbook.min.css"
@@ -22,6 +22,6 @@
     "prettier": "^2.0.5"
   },
   "dependencies": {
-    "node-sass": "^4.12.0"
+    "node-sass": "^9.0.0"
   }
 }
