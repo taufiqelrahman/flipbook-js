@@ -11,6 +11,7 @@
     "scss": "node-sass src/style.scss dist/flipbook.css",
     "lint": "eslint --fix src",
     "build": "yarn lint && yarn scss && rollup -c",
+    "minify": "cleancss -o dist/flipbook.min.css dist/flipbook.css && terser dist/flipbook.umd.js -o dist/flipbook.umd.min.js --compress --mangle && terser dist/flipbook.esm.js -o dist/flipbook.esm.min.js --compress --mangle",
     "demo": "cp dist/flipbook.umd.min.js demo/flipbook.umd.min.js && cp dist/flipbook.min.css demo/flipbook.min.css"
   },
   "devDependencies": {
