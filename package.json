@@ -7,8 +7,8 @@
   "scripts": {
     "scss": "node-sass style.scss style.css",
     "lint": "node_modules/.bin/eslint --fix .",
-    "build": "yarn lint && yarn scss && cp index.js dist/index.js && cp style.css dist/style.css",
-    "demo": "cp index.js demo/index.js && cp style.css demo/style.css"
+    "build": "yarn lint && yarn scss && rollup -c",
+    "demo": "cp dist/flipbook.umd.min.js demo/flipbook.umd.min.js && cp dist/flipbook.min.css demo/flipbook.min.css"
   },
   "devDependencies": {
     "eslint": "^6.4.0",
