@@ -4,7 +4,7 @@ FlipBook is a plugin built on javascript which allows users animate to a book wi
 This plugin doesn't depend on any other libraries and this doesn't use JQuery.
 This would cut a significant download time as this is built 100% using plain vanilla javascript.
 
-[**Demo & Documentation**](https://hoverzoom-js.vercel.app)
+[**Demo & Documentation**](https://flipbook-js.vercel.app)
 
 ## Features
 
@@ -27,12 +27,12 @@ Currently tested in:
 
 Include stylesheet in head tag:
 ```js
-<link rel="stylesheet" href="node_modules/hoverzoom-js/dist/flipbook.min.css">
+<link rel="stylesheet" href="node_modules/flipbook-js/dist/flipbook.min.css">
 ```
 
 and script in body tag:
 ```js
-<script src="node_modules/hoverzoom-js/dist/flipbook.umd.min.js"></script>
+<script src="node_modules/flipbook-js/dist/flipbook.umd.min.js"></script>
 ```
 
 Create your book skeleton like this:
