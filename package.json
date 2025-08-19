@@ -40,6 +40,10 @@
   "bugs": {
     "url": "https://github.com/taufiqelrahman/flipbook-js/issues"
   },
+  "homepage": "https://flipbook-js.vercel.app",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "files": [
     "dist/flipbook.umd.min.js",
     "dist/flipbook.esm.min.js",
