@@ -1,6 +1,6 @@
 {
   "name": "flipbook-js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A plugin built on javascript which allows users animate to a book with flippable pages",
   "main": "dist/flipbook.esm.min.js",
   "module": "dist/flipbook.esm.min.js",
