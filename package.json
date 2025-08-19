@@ -15,7 +15,7 @@
     "./style.css": "./dist/flipbook.min.css"
   },
   "scripts": {
-    "scss": "node-sass src/style.scss dist/flipbook.css",
+    "scss": "sass src/style.scss dist/flipbook.css",
     "lint": "eslint --fix src",
     "build": "yarn lint && yarn scss && rollup -c",
     "minify": "cleancss -o dist/flipbook.min.css dist/flipbook.css && terser dist/flipbook.umd.js -o dist/flipbook.umd.min.js --compress --mangle && terser dist/flipbook.esm.js -o dist/flipbook.esm.min.js --compress --mangle",
@@ -35,10 +35,8 @@
     "eslint-plugin-standard": "^4.0.1",
     "prettier": "^2.0.5",
     "rollup": "^4.46.3",
+    "sass": "^1.90.0",
     "terser": "^5.43.1"
-  },
-  "dependencies": {
-    "node-sass": "^9.0.0"
   },
   "keywords": [
     "flipbook",

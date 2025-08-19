@@ -1,3 +1,9 @@
+## [1.1.0] - 2025-08-19
+
+### Changed
+
+- Replace node-sass with sass
+
 ## [1.0.2] - 2025-08-19
 
 ### Changed
