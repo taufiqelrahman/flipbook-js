@@ -1,3 +1,10 @@
+## [1.1.1] - 2025-08-19
+
+### Fixed
+
+- Add type definition for typescript usage
+
+
 ## [1.1.0] - 2025-08-19
 
 ### Changed
