@@ -1,3 +1,8 @@
+## [1.0.1] - 2025-08-19
+### Changed
+- Improved documentation: Added clear instructions for importing FlipBook from npm in both the README and demo HTML.
+
+
 ## [1.0.0] - 2025-08-19
 ### Added
 - Initial release of FlipBook JavaScript plugin.
