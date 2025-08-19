@@ -8,52 +8,52 @@ This would cut a significant download time as this is built 100% using plain van
 
 ## Features
 
-* Lightweight, no additional javascript dependency.
-* Easy installation.
-* Can make the pages call for attention.
-* Easy navigation with arrow keys.
-* Can jump to specific page.
+- Lightweight, no additional javascript dependency.
+- Easy installation.
+- Can make the pages call for attention.
+- Easy navigation with arrow keys.
+- Can jump to specific page.
 
 ## Browser Compatibility
 
 Currently tested in:
 
-* Chrome Version 76.0.3809.132
-* Firefox Version 69.0.1
-* Safari Version 12.1.1
-* Opera Version 63.0.3368.94
+- Chrome Version 76.0.3809.132
+- Firefox Version 69.0.1
+- Safari Version 12.1.1
+- Opera Version 63.0.3368.94
 
 ## Getting Started
 
 Include stylesheet in head tag:
+
 ```js
-<link rel="stylesheet" href="node_modules/flipbook-js/dist/flipbook.min.css">
+<link rel="stylesheet" href="flipbook-js/style.css">
 ```
 
 and script in body tag:
+
 ```js
-<script src="node_modules/flipbook-js/dist/flipbook.umd.min.js"></script>
+<script src="flipbook-js/dist/flipbook.umd.min.js"></script>
 ```
 
 Create your book skeleton like this:
+
 ```js
 <div class="c-flipbook" id="FlipBook">
-  <div class="c-flipbook__page">
-  </div>
-  <div class="c-flipbook__page">
-  </div>
+  <div class="c-flipbook__page"></div>
+  <div class="c-flipbook__page"></div>
   ...
-  <div class="c-flipbook__page">
-  </div>
+  <div class="c-flipbook__page"></div>
 </div>
 ```
 
 Add 1 line of javascript to initialize:
+
 ```js
-<script>
-  new FlipBook('element-id');
-</script>
+<script>new FlipBook('element-id');</script>
 ```
+
 ## Installation
 
 Install via npm:
@@ -77,7 +77,7 @@ const FlipBook = require('flipbook-js');
 Import CSS (if required):
 
 ```js
-import 'flipbook-js/dist/flipbook.min.css';
+import 'flipbook-js/style.css';
 ```
 
 ## Options

@@ -2,11 +2,18 @@
   "name": "flipbook-js",
   "version": "1.0.1",
   "description": "A plugin built on javascript which allows users animate to a book with flippable pages",
-  "main": "dist/flipbook.umd.min.js",
+  "main": "dist/flipbook.esm.min.js",
   "module": "dist/flipbook.esm.min.js",
-  "browser": "dist/flipbook.umd.min.js",
+  "type": "module",
   "author": "Taufiq",
   "license": "MIT",
+  "exports": {
+    ".": {
+      "import": "./dist/flipbook.esm.min.js",
+      "require": "./dist/flipbook.umd.min.js"
+    },
+    "./style.css": "./dist/flipbook.min.css"
+  },
   "scripts": {
     "scss": "node-sass src/style.scss dist/flipbook.css",
     "lint": "eslint --fix src",
@@ -33,6 +40,14 @@
   "dependencies": {
     "node-sass": "^9.0.0"
   },
+  "keywords": [
+    "flipbook",
+    "flippable",
+    "pages",
+    "animation",
+    "javascript",
+    "plugin"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/taufiqelrahman/flipbook-js.git"
