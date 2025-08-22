@@ -18,7 +18,7 @@
   "scripts": {
     "scss": "sass src/style.scss dist/flipbook.css",
     "lint": "eslint --fix src",
-    "build": "yarn lint && yarn scss && rollup -c && cp src/flipbook.d.ts dist/flipbook.d.ts",
+    "build": "yarn lint && yarn scss && rollup -c && cp src/FlipBook.d.ts dist/flipbook.d.ts",
     "minify": "cleancss -o dist/flipbook.min.css dist/flipbook.css && terser dist/flipbook.umd.js -o dist/flipbook.umd.min.js --compress --mangle && terser dist/flipbook.esm.js -o dist/flipbook.esm.min.js --compress --mangle",
     "demo": "cp dist/flipbook.umd.min.js demo/flipbook.umd.min.js && cp dist/flipbook.min.css demo/flipbook.min.css"
   },

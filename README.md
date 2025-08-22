@@ -1,6 +1,11 @@
 # FlipBook - Lightweight Non-JQuery Plugin
 
-FlipBook is a plugin built on javascript which allows users animate to a book with flippable pages.
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+[![Node Version](https://img.shields.io/badge/node-22.x-brightgreen)](https://nodejs.org/)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/taufiqelrahman/flipbook-js/ci.yml?branch=main)](https://github.com/taufiqelrahman/flipbook-js/actions)
+[![Good First Issue](https://img.shields.io/badge/good%20first%20issue-friendly-brightgreen)](https://github.com/taufiqelrahman/flipbook-js/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+
+FlipBook is a plugin built on javascript which allows users to animate a book with flippable pages.
 This plugin doesn't depend on any other libraries and this doesn't use JQuery.
 This would cut a significant download time as this is built 100% using plain vanilla javascript.
 
@@ -97,3 +102,45 @@ import 'flipbook-js/style.css';
   });
 </script>
 ```
+---
+
+## 🤝 Contributing
+
+We ❤️ contributions!
+
+- Check out good first issues here
+- Fork the repo & create a branch:
+
+```bash
+git checkout -b feature/amazing-feature
+```
+
+- Commit & push your changes:
+
+```bash
+git commit -m "Add amazing feature"
+git push origin feature/amazing-feature
+```
+
+- Open a Pull Request to main.
+
+### Guidelines
+
+- Follow TypeScript best practices
+- Write tests for new features
+- Use conventional commit messages
+- Keep code clean & formatted
+
+⸻
+
+## 📄 License
+
+MIT License
+
+## 🐛 Bug Reports & Feature Requests
+
+Submit via [GitHub Issues](https://github.com/taufiqelrahman/hoverzoom-js/issues).
+
+⸻
+
+Made with ❤️ for building a plugin to animate a book with flippable pages.
