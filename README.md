@@ -168,9 +168,40 @@ git push origin feature/amazing-feature
 
 MIT License
 
+## 🚀 Publishing to npm
+
+**For maintainers only:**
+
+```bash
+./release.sh patch   # 1.1.1 → 1.1.2 (bug fixes)
+./release.sh minor   # 1.1.1 → 1.2.0 (new features)
+./release.sh major   # 1.1.1 → 2.0.0 (breaking changes)
+```
+
+That's it! Script will: lint → test → build → tag → publish.
+
+<details>
+<summary>Manual steps (click to expand)</summary>
+
+```bash
+# 1. Check everything is ready
+./prerelease-check.sh
+
+# 2. Bump version & create tag
+npm version patch
+
+# 3. Publish to npm
+./publish-npm.sh
+
+# 4. Push to GitHub
+git push && git push --tags
+```
+
+</details>
+
 ## 🐛 Bug Reports & Feature Requests
 
-Submit via [GitHub Issues](https://github.com/taufiqelrahman/hoverzoom-js/issues).
+Submit via [GitHub Issues](https://github.com/taufiqelrahman/flipbook-js/issues).
 
 ⸻
 

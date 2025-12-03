@@ -1,0 +1,52 @@
+# Development files
+src/
+tests/
+demo/
+coverage/
+.github/
+playwright-report/
+test-results/
+
+# Config files
+.eslintrc.js
+.prettierrc.js
+.nvmrc
+vitest.config.js
+playwright.config.js
+rollup.config.js
+vercel.json
+
+# Documentation (keep README.md and CHANGELOG.md)
+RELEASE.md
+QUICKREF.md
+TESTING.md
+tests/README.md
+todo.md
+
+# Scripts
+release.sh
+prerelease-check.sh
+publish-npm.sh
+update-changelog.sh
+
+# Assets
+preview.jpg
+preview.png
+screenshot.png
+thumbnail.jpg
+thumbnail.png
+
+# Build artifacts
+*.log
+*.tgz
+.DS_Store
+
+# Git
+.git
+.gitignore
+
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock

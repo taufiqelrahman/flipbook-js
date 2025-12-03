@@ -1,0 +1,110 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run tests
+        run: pnpm test:all
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Extract changelog for version
+        id: changelog
+        run: |
+          VERSION=${{ steps.get_version.outputs.VERSION }}
+          CHANGELOG=$(sed -n "/## \[$VERSION\]/,/## \[/p" CHANGELOG.md | sed '$ d' | tail -n +2)
+          if [ -z "$CHANGELOG" ]; then
+            CHANGELOG="See full changelog in CHANGELOG.md"
+          fi
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release v${{ steps.get_version.outputs.VERSION }}
+          body: |
+            ## 📦 FlipBook.js v${{ steps.get_version.outputs.VERSION }}
+
+            ${{ steps.changelog.outputs.CHANGELOG }}
+
+            ### 📥 Installation
+
+            ```bash
+            npm install flipbook-js@${{ steps.get_version.outputs.VERSION }}
+            ```
+
+            ### 🔗 Links
+            - [npm Package](https://www.npmjs.com/package/flipbook-js)
+            - [Demo](https://flipbook-js.vercel.app)
+            - [Documentation](https://github.com/taufiqelrahman/flipbook-js#readme)
+
+          draft: false
+          prerelease: false
+          files: |
+            dist/flipbook.umd.min.js
+            dist/flipbook.esm.min.js
+            dist/flipbook.min.css
+            dist/flipbook.d.ts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify npm credentials
+        run: |
+          if [ -z "${{ secrets.NPM_TOKEN }}" ]; then
+            echo "⚠️  NPM_TOKEN not set, skipping npm publish"
+            echo "To enable automatic npm publishing, add NPM_TOKEN to repository secrets"
+            exit 0
+          fi
+
+      - name: Setup npm authentication
+        if: secrets.NPM_TOKEN != ''
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Publish to npm
+        if: secrets.NPM_TOKEN != ''
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Notify success
+        if: success()
+        run: |
+          echo "✅ Release v${{ steps.get_version.outputs.VERSION }} completed successfully!"
+          echo "📦 npm: https://www.npmjs.com/package/flipbook-js"
+          echo "🎉 GitHub: https://github.com/taufiqelrahman/flipbook-js/releases/tag/v${{ steps.get_version.outputs.VERSION }}"

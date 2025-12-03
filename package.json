@@ -18,6 +18,7 @@
   "scripts": {
     "scss": "sass src/style.scss dist/flipbook.css",
     "lint": "eslint --fix src",
+    "lint:check": "eslint src",
     "build": "pnpm lint && pnpm scss && rollup -c && cp src/FlipBook.d.ts dist/flipbook.d.ts",
     "minify": "cleancss -o dist/flipbook.min.css dist/flipbook.css && terser dist/flipbook.umd.js -o dist/flipbook.umd.min.js --compress --mangle && terser dist/flipbook.esm.js -o dist/flipbook.esm.min.js --compress --mangle",
     "demo": "cp dist/flipbook.umd.min.js demo/flipbook.umd.min.js && cp dist/flipbook.min.css demo/flipbook.min.css",
@@ -27,7 +28,16 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:coverage": "vitest run --coverage",
-    "test:all": "pnpm test:unit && pnpm test:e2e"
+    "test:all": "pnpm test:unit && pnpm test:e2e",
+    "clean": "rm -rf dist && mkdir -p dist",
+    "prebuild": "pnpm clean",
+    "postbuild": "pnpm minify && pnpm demo",
+    "prerelease": "pnpm lint:check && pnpm test:all && pnpm build",
+    "release:patch": "pnpm prerelease && npm version patch && pnpm release:publish",
+    "release:minor": "pnpm prerelease && npm version minor && pnpm release:publish",
+    "release:major": "pnpm prerelease && npm version major && pnpm release:publish",
+    "release:publish": "git push && git push --tags && npm publish",
+    "prepublishOnly": "pnpm lint:check && pnpm test:all && pnpm build"
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0",
