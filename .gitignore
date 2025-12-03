@@ -3,3 +3,17 @@ TODOS.md
 demo.zip
 package.zip
 screenshot.zip
+
+todo.md
+
+# Test coverage directory
+coverage/
+.nyc_output/
+
+# Playwright
+playwright-report/
+test-results/
+playwright/.cache/
+
+# Vitest
+.vitest/

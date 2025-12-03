@@ -1,11 +1,12 @@
 # FlipBook - Lightweight Non-JQuery Plugin
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/taufiqelrahman/flipbook-js/deploy-vercel.yml?branch=master)](https://github.com/taufiqelrahman/flipbook-js/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/taufiqelrahman/flipbook-js/ci.yml?branch=master)](https://github.com/taufiqelrahman/flipbook-js/actions)
 [![Good First Issue](https://img.shields.io/badge/good%20first%20issue-friendly-brightgreen)](https://github.com/taufiqelrahman/flipbook-js/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 ![npm](https://img.shields.io/npm/v/flipbook-js)
 ![npm](https://img.shields.io/npm/dt/flipbook-js)
 ![license](https://img.shields.io/npm/l/flipbook-js)
 [![Node Version](https://img.shields.io/badge/node-22.x-brightgreen)](https://nodejs.org/)
+[![Coverage](https://img.shields.io/badge/coverage-70%25%2B-brightgreen)](./TESTING.md)
 
 FlipBook is a plugin built on javascript which allows users to animate a book with flippable pages.
 This plugin doesn't depend on any other libraries and this doesn't use JQuery.
@@ -63,7 +64,13 @@ Add 1 line of javascript to initialize:
 
 ## Installation
 
-Install via npm:
+Install via pnpm:
+
+```sh
+pnpm install flipbook-js
+```
+
+Or using npm:
 
 ```sh
 npm install flipbook-js
@@ -104,6 +111,28 @@ import 'flipbook-js/style.css';
   });
 </script>
 ```
+---
+
+## 🧪 Testing
+
+FlipBook has comprehensive test coverage with unit tests and E2E tests.
+
+```bash
+# Run all tests
+pnpm test:all
+
+# Run unit tests only
+pnpm test
+
+# Run with coverage
+pnpm test:coverage
+
+# Run E2E tests
+pnpm test:e2e
+```
+
+See [TESTING.md](./TESTING.md) for detailed testing documentation.
+
 ---
 
 ## 🤝 Contributing
