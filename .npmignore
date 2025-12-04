@@ -14,7 +14,6 @@ test-results/
 vitest.config.js
 playwright.config.js
 rollup.config.js
-vercel.json
 
 # Documentation (keep README.md and CHANGELOG.md)
 RELEASE.md
