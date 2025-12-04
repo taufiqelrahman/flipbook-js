@@ -76,11 +76,20 @@ else
 fi
 
 echo ""
-print_step "Step 6/6: Building project..."
+print_step "Step 6/7: Building project..."
 if pnpm build; then
     print_success "Build completed"
 else
     print_error "Build failed"
+    exit 1
+fi
+
+echo ""
+print_step "Step 7/7: Verifying demo files sync..."
+if pnpm verify:demo; then
+    print_success "Demo files verified"
+else
+    print_error "Demo files out of sync"
     exit 1
 fi
 

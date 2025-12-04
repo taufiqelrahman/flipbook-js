@@ -1,0 +1,47 @@
+name: Verify Demo Sync
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  verify-demo:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Verify demo files sync
+        run: pnpm verify:demo
+
+      - name: Upload demo files for inspection
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: demo-files
+          path: |
+            demo/
+            dist/
+          retention-days: 7

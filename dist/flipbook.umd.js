@@ -17,7 +17,7 @@
 	function requireFlipBook () {
 		if (hasRequiredFlipBook) return FlipBook$1.exports;
 		hasRequiredFlipBook = 1;
-		(function (module, exports) {
+		(function (module, exports$1) {
 			// FlipBook v1.0.0 by Taufiq El Rahman
 			// Interactive book-like page flipping UI component
 

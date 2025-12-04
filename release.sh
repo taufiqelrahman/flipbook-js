@@ -117,7 +117,7 @@ else
 fi
 
 echo ""
-print_step "Step 6/8: Building project..."
+print_step "Step 6/9: Building project..."
 if pnpm build; then
     print_success "Build completed"
 else
@@ -126,13 +126,22 @@ else
 fi
 
 echo ""
-print_step "Step 7/8: Bumping version and creating git tag..."
+print_step "Step 7/9: Verifying demo files sync..."
+if pnpm verify:demo; then
+    print_success "Demo files verified"
+else
+    print_error "Demo files out of sync"
+    exit 1
+fi
+
+echo ""
+print_step "Step 8/9: Bumping version and creating git tag..."
 npm version $RELEASE_TYPE -m "chore: release v%s"
 NEW_VERSION=$(node -p "require('./package.json').version")
 print_success "Version bumped: ${GREEN}v$CURRENT_VERSION${NC} → ${GREEN}v$NEW_VERSION${NC}"
 
 echo ""
-print_step "Step 8/8: Publishing to npm..."
+print_step "Step 9/9: Publishing to npm..."
 
 # Verify files that will be published
 echo ""

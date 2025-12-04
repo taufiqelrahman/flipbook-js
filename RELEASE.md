@@ -12,9 +12,10 @@
 1. ✓ Lint code
 2. ✓ Run all tests
 3. ✓ Build & minify
-4. ✓ Bump version & create git tag
-5. ✓ Push to GitHub
-6. ✓ Publish to npm
+4. ✓ Verify demo sync ✨
+5. ✓ Bump version & create git tag
+6. ✓ Push to GitHub
+7. ✓ Publish to npm
 
 ---
 
@@ -90,6 +91,7 @@ pnpm test:e2e        # E2E tests only
 pnpm clean           # Clean dist
 pnpm build           # Full build
 pnpm demo            # Update demo files
+pnpm verify:demo     # Verify demo sync
 
 # Releasing
 ./release.sh patch   # Complete release

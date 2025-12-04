@@ -6,7 +6,7 @@
 ./release.sh patch
 ```
 
-Done! (lint → test → build → tag → publish)
+Done! (lint → test → build → verify demo → tag → publish)
 
 ---
 
@@ -26,6 +26,7 @@ pnpm test:e2e        # E2E only
 pnpm build           # Full build
 pnpm clean           # Clean dist
 pnpm demo            # Update demo
+pnpm verify:demo     # Verify demo sync
 ```
 
 ---
